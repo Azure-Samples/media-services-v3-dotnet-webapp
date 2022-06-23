@@ -1,57 +1,23 @@
-# Project Name
+# Media Streaming with .NET
 
-(short, 1-3 sentenced, description of the project)
+This repo contains sample code for using Azure Media Services to create a video streaming web application.
 
 ## Features
 
 This project framework provides the following features:
 
-* Feature 1
-* Feature 2
-* ...
+* A web application for browsing
+* Video playback using Azure Media Player
+* User authentication
+* Per-video authorization
+* Video encryption AES
+* DRM protection for videos using PlayReady and Widevine
+* Sample code for uploading and configuring Media Services to stream videos
 
 ## Getting Started
 
 ### Prerequisites
 
-(ideally very short, if any)
-
-- OS
-- Library version
-- ...
-
-### Installation
-
-(ideally very short)
-
-- npm install [package name]
-- mvn install
-- ...
-
-### Quickstart
-(Add steps to get up and running quickly)
-
-1. git clone [repository clone url]
-2. cd [repository name]
-3. ...
-
-
-## Demo
-
-A demo app is included to show how to use the project.
-
-To run the demo, follow these steps:
-
-(Add steps to start up the demo)
-
-1.
-2.
-3.
-
-## Resources
-
-(Any additional resources or related projects)
-
-- Link to supporting information
-- Link to similar sample
-- ...
+- .NET 6
+- Visual Studio or Visual Studio Code
+- An Azure Subscription
