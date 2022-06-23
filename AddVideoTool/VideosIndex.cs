@@ -3,8 +3,6 @@
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
 
-using System.Text.Json;
-
 internal static class VideosIndex
 {
     internal record Video(string VideoId, string Title, string Locator, string? Thumbnail, ICollection<string> Viewers, ICollection<string> ContentKeyIds);

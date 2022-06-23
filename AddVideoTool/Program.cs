@@ -14,7 +14,7 @@ using Microsoft.Azure.Management.Media;
 using Microsoft.Azure.Management.Media.Models;
 using Microsoft.Extensions.Configuration;
 
-// Use configuraiton from the 'appsettings.json' and command line options. Command line
+// Use configuration from the 'appsettings.json' and command line options. Command line
 // options can be set like this: '/IndexFile index.json'. For more details, see:
 // https://docs.microsoft.com/en-us/dotnet/core/extensions/configuration-providers#command-line-arguments
 var config = new ConfigurationBuilder()

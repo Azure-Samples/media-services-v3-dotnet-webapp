@@ -20,7 +20,7 @@ function playVideo(data) {
         videoCard.appendChild(customCreateElement('img', { class: 'thumbnail', src: video.thumbnail }));
         videoCard.appendChild(customCreateElement('div', { class: 'cardtitle' }, video.title));
 
-        let videoLink = customCreateElement('a', { href: '/watch.html?video=' + video.id });
+        let videoLink = customCreateElement('a', { href: '/watch.html?video=' + video.videoId });
         videoLink.appendChild(videoCard);
 
         videoContainer.appendChild(videoLink);

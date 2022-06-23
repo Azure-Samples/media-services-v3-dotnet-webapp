@@ -14,9 +14,9 @@ This project framework provides the following features:
 
 ### Prerequisites
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-- .NET 6
-- Visual Studio or Visual Studio Code
-- An Azure Subscription
+- [.NET 6](https://dotnet.microsoft.com/en-us/learn/dotnet/hello-world-tutorial/install)
+- [Visual Studio](https://visualstudio.microsoft.com/) or [Visual Studio Code](https://code.visualstudio.com/)
+- An [Azure Subscription](https://azure.microsoft.com/)
 
 ### Resource Creation
 
