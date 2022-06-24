@@ -148,7 +148,10 @@ static async Task<Asset?> EncodeContextAsync(AzureMediaServicesClient mediaServi
         return null;
     }
 
-    return asset;
+    return await mediaServices.Assets.GetAsync(
+        options.ResourceGroup,
+        options.AccountName,
+        options.Asset);
 }
 
 // Get an existing asset
@@ -200,7 +203,7 @@ static async Task<string?> GetThumbnailUriAsync(ArmClient arm, AzureMediaService
     var blobContainer = new BlobContainerClient(
         new Uri($"{storageAccount.Value.Data.PrimaryEndpoints.Blob}{asset.Container}"),
         storageCredentials);
-    
+
     var thumbnailBlob = await blobContainer.GetBlobsAsync(prefix: "Thumbnail").FirstOrDefaultAsync();
 
     if (thumbnailBlob == null)

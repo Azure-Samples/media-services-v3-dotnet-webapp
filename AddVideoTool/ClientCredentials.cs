@@ -3,6 +3,10 @@
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
 
+using Azure.Core;
+using Microsoft.Rest;
+using System.Net.Http.Headers;
+
 // Class to adapt TokenCredential to ServiceClientCredentials.
 internal class ClientCredentials : ServiceClientCredentials
 {

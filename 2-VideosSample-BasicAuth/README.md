@@ -1,6 +1,6 @@
-# Simple Video Streaming
+# Video Streaming with Basic Authentication
 
-This sample contains a .NET web applicaiton for streaming videos. In this version of the sample, anyone can browse and play videos -- no authentication is implemented.
+This sample contains a .NET web applicaiton for streaming videos. In this version of the sample, users must login to view videos.
 
 ## Features
 
@@ -9,6 +9,7 @@ This project framework provides the following features:
 * A web application for browsing
 * Video playback using Azure Media Player
 * Sample code for uploading and configuring Media Services to stream videos
+* Basic authentication
 
 ## Getting Started
 
@@ -18,10 +19,20 @@ This project framework provides the following features:
 - [Visual Studio](https://visualstudio.microsoft.com/) or [Visual Studio Code](https://code.visualstudio.com/)
 - An [Azure Subscription](https://azure.microsoft.com/)
 
+### Azure Active Directory Configuration
+
+```console
+dotnet run --project AadSetup `
+  /TenantId 2907db28-02e8-4608-a912-dff319fc65ae `
+  /TenantDomain "jopayntest.onmicrosoft.com" `
+  /ApplicationDisplayName "Video Sample 100" `
+  /ApplicationName "video-sample-100"
+```
+
 ### Resource Creation
 
 ```console
-cd 1-VideosSample-Public
+cd 2-VideosSample-BasicAuth
 
 az login
 
@@ -32,7 +43,7 @@ az group create --location westus --name <resource-group-name>
 az deployment group create `
   --resource-group <resource-group-name> `
   --template-file .\MediaServices.bicep `
-  --parameters baseName=<name> `
+  --parameters baseName=<name> tenantId=2907db28-02e8-4608-a912-dff319fc65ae apiApplicationClientId=892d3344-8c7d-4b62-a7d3-444a0236e2fa `
   --query "properties.outputs"
 ```
 
@@ -54,7 +65,7 @@ dotnet run --project ..\AddVideoTool `
   /ResourceGroup <resource-group-name> `
   /AccountName <media-services-account-name> `
   /Transform VideosSampleContentAwareEncodingTransform `
-  /StreamingPolicy VideosSampleNoEncryptionStreamingPolicy `
+  /StreamingPolicy VideosSampleEncryptionStreamingPolicy `
   /Title "All about cars" `
   /SourceFile cars.mp4 `
   /Asset Cars
@@ -67,7 +78,7 @@ dotnet run --project ..\AddVideoTool `
   /ResourceGroup <resource-group-name> `
   /AccountName <media-services-account-name> `
   /Transform VideosSampleContentAwareEncodingTransform `
-  /StreamingPolicy VideosSampleNoEncryptionStreamingPolicy `
+  /StreamingPolicy VideosSampleEncryptionStreamingPolicy `
   /Title "All about cars" `
   /SourceFile cars.mp4 `
   /Asset Cars
@@ -79,7 +90,7 @@ dotnet run --project ..\AddVideoTool `
   /SubscriptionId <subscription-id> `
   /ResourceGroup <resource-group-name> `
   /AccountName <media-services-account-name> `
-  /StreamingPolicy VideosSampleNoEncryptionStreamingPolicy `
+  /StreamingPolicy VideosSampleEncryptionStreamingPolicy `
   /Title "All about cars" `
   /Asset Cars
 ```
@@ -98,7 +109,7 @@ az ams streaming-endpoint start `
 ### Building the Web App
 
 ```console
-dotnet run --project VideosSample
+dotnet run --project VideosSampleWithAuth
 ```
 
 Then open `https://localhost:7150/` in a browser.

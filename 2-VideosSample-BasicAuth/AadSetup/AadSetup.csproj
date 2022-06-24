@@ -18,12 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.5.0" />
-    <PackageReference Include="Azure.ResourceManager.Storage" Version="1.0.0-beta.9" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
-	  <PackageReference Include="Microsoft.Azure.Management.Media" Version="5.0.0" />
-	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-	  <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-  </ItemGroup>	
-	
+	<PackageReference Include="Azure.Identity" Version="1.5.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Graph" Version="4.32.0" />
+  </ItemGroup>
+
 </Project>
