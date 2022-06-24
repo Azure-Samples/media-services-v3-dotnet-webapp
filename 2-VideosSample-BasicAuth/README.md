@@ -23,10 +23,10 @@ This project framework provides the following features:
 
 ```console
 dotnet run --project AadSetup `
-  /TenantId 2907db28-02e8-4608-a912-dff319fc65ae `
-  /TenantDomain "jopayntest.onmicrosoft.com" `
-  /ApplicationDisplayName "Video Sample 100" `
-  /ApplicationName "video-sample-100"
+  /TenantId <tenant-id> `
+  /TenantDomain "<tenant-domain>" `
+  /ApplicationDisplayName "Video Sample" `
+  /ApplicationName "video-sample"
 ```
 
 ### Resource Creation
@@ -43,7 +43,7 @@ az group create --location westus --name <resource-group-name>
 az deployment group create `
   --resource-group <resource-group-name> `
   --template-file .\MediaServices.bicep `
-  --parameters baseName=<name> tenantId=2907db28-02e8-4608-a912-dff319fc65ae apiApplicationClientId=892d3344-8c7d-4b62-a7d3-444a0236e2fa `
+  --parameters baseName=<name> tenantId=<tenant-id> apiApplicationClientId=<client-id> `
   --query "properties.outputs"
 ```
 
