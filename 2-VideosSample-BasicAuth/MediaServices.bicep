@@ -7,17 +7,21 @@ param baseName string
 
 param location string = resourceGroup().location
 
-param identityName string ='${baseName}identity'
+param identityName string = '${baseName}identity'
 
 param storageAccountName string = '${baseName}store'
 
-param mediaServicesAccountName string ='${baseName}media'
+param mediaServicesAccountName string = '${baseName}media'
 
 param contentAwareEncodingTransformName string = 'VideosSampleContentAwareEncodingTransform'
 
 param encryptionContentKeyPolicyName string = 'VideosSampleEncryptionContentKeyPolicy'
 
 param encryptionStreamingPolicyName string = 'VideosSampleEncryptionStreamingPolicy'
+
+param drmContentKeyPolicyName string = 'VideosSampleDrmContentKeyPolicy'
+
+param drmStreamingPolicyName string = 'VideosSampleDrmStreamingPolicy'
 
 param tenantId string
 
@@ -35,7 +39,7 @@ resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   name: storageAccountName
   location: location
-  sku:{
+  sku: {
     name: 'Standard_LRS'
   }
   kind: 'StorageV2'
@@ -104,7 +108,7 @@ resource encryptionContentKeyPolicy 'Microsoft.Media/mediaServices/contentKeyPol
         }
         restriction: {
           '@odata.type': '#Microsoft.Media.ContentKeyPolicyTokenRestriction'
-          issuer: 'https://login.microsoftonline.com/${tenantId}/v2.0'
+          issuer: '${environment().authentication.loginEndpoint}${tenantId}/v2.0'
           audience: apiApplicationClientId
           requiredClaims: [
             {
@@ -113,7 +117,7 @@ resource encryptionContentKeyPolicy 'Microsoft.Media/mediaServices/contentKeyPol
             }
           ]
           restrictionTokenType: 'Jwt'
-          openIdConnectDiscoveryDocument: 'https://login.windows.net/${tenantId}/.well-known/openid-configuration'
+          openIdConnectDiscoveryDocument: '${environment().authentication.loginEndpoint}${tenantId}/.well-known/openid-configuration'
         }
       }
     ]
@@ -139,6 +143,94 @@ resource encryptionStreamingPolicy 'Microsoft.Media/mediaServices/streamingPolic
   }
 }
 
+// Create a Content Key Policy with DRM.
+resource drmContentKeyPolicy 'Microsoft.Media/mediaServices/contentKeyPolicies@2021-11-01' = {
+  name: '${mediaServicesAccount.name}/${drmContentKeyPolicyName}'
+  properties: {
+    options: [
+      {
+        name: 'PlayReadyOption'
+        configuration: {
+          '@odata.type': '#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration'
+          licenses: [
+            {
+              allowTestDevices: true
+              playRight: {
+                agcAndColorStripeRestriction: 2
+                digitalVideoOnlyContentRestriction: false
+                imageConstraintForAnalogComponentVideoRestriction: false
+                imageConstraintForAnalogComputerMonitorRestriction: false
+                allowPassingVideoContentToUnknownOutput: 'Allowed'
+                compressedDigitalAudioOpl: 150
+              }
+              licenseType: 'NonPersistent'
+              contentKeyLocation: {
+                '@odata.type': '#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader'
+              }
+              contentType: 'Unspecified'
+            }
+          ]
+        }
+        restriction: {
+          '@odata.type': '#Microsoft.Media.ContentKeyPolicyTokenRestriction'
+          issuer: '${environment().authentication.loginEndpoint}${tenantId}/v2.0'
+          audience: apiApplicationClientId
+          requiredClaims: [
+            {
+              claimType: 'scp'
+              claimValue: 'Videos.Watch'
+            }
+          ]
+          restrictionTokenType: 'Jwt'
+          openIdConnectDiscoveryDocument: '${environment().authentication.loginEndpoint}${tenantId}/.well-known/openid-configuration'
+        }
+      }
+      {
+        name: 'WidevineOption'
+        configuration: {
+          '@odata.type': '#Microsoft.Media.ContentKeyPolicyWidevineConfiguration'
+          widevineTemplate: '{"policy_overrides":{"can_persist":false,"can_renew":false,"license_duration_seconds":3000,"rental_duration_seconds":3000,"playback_duration_seconds":1000}}'
+        }
+        restriction: {
+          '@odata.type': '#Microsoft.Media.ContentKeyPolicyTokenRestriction'
+          issuer: '${environment().authentication.loginEndpoint}${tenantId}/v2.0'
+          audience: apiApplicationClientId
+          requiredClaims: [
+            {
+              claimType: 'scp'
+              claimValue: 'Videos.Watch'
+            }
+          ]
+          restrictionTokenType: 'Jwt'
+          openIdConnectDiscoveryDocument: '${environment().authentication.loginEndpoint}${tenantId}/.well-known/openid-configuration'
+        }
+      }
+    ]
+  }
+}
+
+// Create a Streaming Policy with DRM.
+resource drmStreamingPolicy 'Microsoft.Media/mediaServices/streamingPolicies@2021-11-01' = {
+  name: '${mediaServicesAccount.name}/${drmStreamingPolicyName}'
+  dependsOn: [
+    drmContentKeyPolicy
+  ]
+  properties: {
+    defaultContentKeyPolicyName: drmContentKeyPolicyName
+    commonEncryptionCenc: {
+      enabledProtocols: {
+        dash: true
+        hls: true
+        download: false
+        smoothStreaming: false
+      }
+      drm: {
+        playReady: { }
+        widevine: { }
+      }
+    }
+  }
+}
 
 output subscriptionId string = subscription().id
 output resourceGroupName string = resourceGroup().name

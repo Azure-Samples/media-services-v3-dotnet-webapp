@@ -24,6 +24,14 @@ function playVideo(data, bearer) {
                     {
                         type: "AES",
                         authenticationToken: bearer
+                    },
+                    {
+                        type: "PlayReady",
+                        authenticationToken: bearer
+                    },
+                    {
+                        type: "Widevine",
+                        authenticationToken: bearer
                     }
                 ]
             },
