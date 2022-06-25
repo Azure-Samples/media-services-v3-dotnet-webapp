@@ -113,3 +113,17 @@ dotnet run --project VideosSampleWithAuth
 ```
 
 Then open `https://localhost:7150/` in a browser.
+
+### Using DRM
+
+```console
+dotnet run --project ..\AddVideoTool `
+  /SubscriptionId <subscription-id> `
+  /ResourceGroup <resource-group-name> `
+  /AccountName <media-services-account-name> `
+  /Transform VideosSampleContentAwareEncodingTransform `
+  /StreamingPolicy VideosSampleDrmStreamingPolicy `
+  /Title "All about boats" `
+  /SourceFile boats.mp4 `
+  /Asset Boats
+```
