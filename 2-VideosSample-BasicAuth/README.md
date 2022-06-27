@@ -1,4 +1,4 @@
-# Video Streaming with Simple Authorization
+# Video Streaming with Basic Authorization
 
 This sample contains a .NET web applicaiton for streaming videos. In this version of the sample, users must login to view videos.
 
@@ -9,7 +9,7 @@ This project framework provides the following features:
 * A web application for browsing
 * Video playback using Azure Media Player
 * Sample code for uploading and configuring Media Services to stream videos
-* Simple authentication and authorization
+* Basic authentication and authorization
 
 ## Getting Started
 
