@@ -142,6 +142,27 @@ dotnet run --project VideosSampleWithPerVideoAuth
 
 Then open `https://localhost:7150/` in a browser.
 
+### Per-video access control
+
+To control which users and groups can view a video, update the `Viewers` array in the `index.json` file.
+
+Items in the Viewers array may be:
+- Azure Active Directory user IDs
+- Azure Active Directory group IDs
+- The string "all"
+
+When a group is included in the list of viewers, any user that is directly in a group, or a transitive member
+of a group, is able to view the video.
+
+### Caching
+
+The `VideosSampleWithPerVideoAuth` sample requests tokens and group details on every request. To improve performance
+and to enable the application to scale, the `VideosSampleWithPerVideoAuthAndCache` sample extends the
+`VideosSampleWithPerVideoAuth` to cache tokens and user details.
+
+`VideosSampleWithPerVideoAuth` uses a Redis cache, which is configured in the `appsettings.json` file. It can either
+use a local Redis instance or Azure Redis.
+
 ### Using DRM
 
 To use DRM when streaming videos, the `VideosSampleDrmWithKeyProxyStreamingPolicy` Streaming Policy may be used.
@@ -234,6 +255,7 @@ activate Graph API
 Graph API-->>Videos Sample: List of user groups
 deactivate Graph API
 activate Videos Sample
+note right of Videos Sample: Validate user's access to video
 Videos Sample->>Azure Active Directory: Get token
 deactivate Videos Sample
 activate Azure Active Directory

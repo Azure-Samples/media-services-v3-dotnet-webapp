@@ -1,0 +1,66 @@
+﻿body {
+    background-color: #303030;
+    color: whitesmoke;
+    font-family: 'Franklin Gothic Medium';
+    padding: 0px;
+    margin: 0px;
+}
+
+h1 {
+    padding-top: 10px;
+    padding-left: 45px;
+    margin-top: 0px;
+}
+
+.titlebar {
+    width: 100%;
+    height: 60px;
+    background-color: cornflowerblue;
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
+.videotitle {
+    font-size: 30px;
+    padding-bottom: 10px;
+}
+
+.content {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 250px);
+    grid-auto-rows: auto;
+    grid-gap: 1rem;
+}
+
+.card {
+    transition: 0.4s;
+    border: 2px solid #e7e7e7;
+    padding: 0.4rem;
+    width: 230px;
+    height: 150px;
+    background-color: black;
+}
+
+.cardtitle {
+    padding-left: 16px;
+    padding-top: 2px;
+}
+
+a:link, a:visited {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 16px 0 rgb(150, 150, 150);
+}
+
+.thumbnail {
+    width: 235px;
+    height: 120px;
+}
