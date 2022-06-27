@@ -143,6 +143,11 @@ deactivate Videos Sample
 
 User->>Browser: Play Video
 
+Browser->>Videos Sample: GET /watch.html?video={id}
+activate Videos Sample
+Videos Sample-->>Browser: Response
+deactivate Videos Sample
+
 Browser->>Videos Sample: GET /videos/{id}
 activate Videos Sample
 Videos Sample-->>Browser: Video Details
