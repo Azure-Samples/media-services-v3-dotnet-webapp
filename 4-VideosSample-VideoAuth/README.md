@@ -1,6 +1,7 @@
-# Video Streaming with Simple Authorization
+# Video Streaming with per-video Authorization
 
-This sample contains a .NET web applicaiton for streaming videos. In this version of the sample, users must login to view videos.
+This sample contains a .NET web applicaiton for streaming videos. In this version of the sample, access to videos is controlled using
+Azure Active Directory users and groups.
 
 ## Features
 
@@ -8,12 +9,16 @@ This project framework provides the following features:
 
 * A web application for browsing
 * Video playback using Azure Media Player
+* User authentication
+* Per-video authorization
+* Video encryption AES
+* DRM protection for videos using PlayReady and Widevine
 * Sample code for uploading and configuring Media Services to stream videos
-* Simple authentication and authorization
 
 ## Getting Started
 
 ### Prerequisites
+
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 - [.NET 6](https://dotnet.microsoft.com/en-us/learn/dotnet/hello-world-tutorial/install)
 - [Visual Studio](https://visualstudio.microsoft.com/) or [Visual Studio Code](https://code.visualstudio.com/)
@@ -22,7 +27,7 @@ This project framework provides the following features:
 ### Azure Active Directory Configuration
 
 ```console
-cd 2-VideosSample-BasicAuth
+cd 4-VideosSample-PerVideoAuth
 
 dotnet run --project AadSetup `
   /TenantId <tenant-id> `
@@ -43,7 +48,7 @@ az group create --location westus --name <resource-group-name>
 az deployment group create `
   --resource-group <resource-group-name> `
   --template-file .\MediaServices.bicep `
-  --parameters baseName=<name> tenantId=<tenant-id> apiApplicationClientId=<client-id> `
+  --parameters baseName=<name> tenantId=<tenant-id> keyDeliveryApplicationClientId=<client-id> `
   --query "properties.outputs"
 ```
 
@@ -65,7 +70,7 @@ dotnet run --project ..\AddVideoTool `
   /ResourceGroup <resource-group-name> `
   /AccountName <media-services-account-name> `
   /Transform VideosSampleContentAwareEncodingTransform `
-  /StreamingPolicy VideosSampleEncryptionStreamingPolicy `
+  /StreamingPolicy VideosSampleEncryptionWithKeyProxyStreamingPolicy `
   /Title "All about cars" `
   /SourceFile cars.mp4 `
   /Asset Cars
@@ -78,7 +83,7 @@ dotnet run --project ..\AddVideoTool `
   /ResourceGroup <resource-group-name> `
   /AccountName <media-services-account-name> `
   /Transform VideosSampleContentAwareEncodingTransform `
-  /StreamingPolicy VideosSampleEncryptionStreamingPolicy `
+  /StreamingPolicy VideosSampleEncryptionWithKeyProxyStreamingPolicy `
   /Title "All about cars" `
   /SourceFile cars.mp4 `
   /Asset Cars
@@ -90,7 +95,7 @@ dotnet run --project ..\AddVideoTool `
   /SubscriptionId <subscription-id> `
   /ResourceGroup <resource-group-name> `
   /AccountName <media-services-account-name> `
-  /StreamingPolicy VideosSampleEncryptionStreamingPolicy `
+  /StreamingPolicy VideosSampleEncryptionWithKeyProxyStreamingPolicy `
   /Title "All about cars" `
   /Asset Cars
 ```
@@ -111,7 +116,7 @@ az ams streaming-endpoint start `
 Update appsettings.json and wwwroot/js/authConfig.js.
 
 ```console
-dotnet run --project VideosSampleWithAuth
+dotnet run --project VideosSampleWithPerVideoAuth
 ```
 
 Then open `https://localhost:7150/` in a browser.
@@ -124,7 +129,7 @@ dotnet run --project ..\AddVideoTool `
   /ResourceGroup <resource-group-name> `
   /AccountName <media-services-account-name> `
   /Transform VideosSampleContentAwareEncodingTransform `
-  /StreamingPolicy VideosSampleDrmStreamingPolicy `
+  /StreamingPolicy VideosSampleDrmWithKeyProxyStreamingPolicy `
   /Title "All about boats" `
   /SourceFile boats.mp4 `
   /Asset Boats
