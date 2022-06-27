@@ -225,21 +225,36 @@ activate Streaming Endpoint
 Streaming Endpoint-->>Browser: Manifest
 deactivate Streaming Endpoint
 
-Browser->>Key Delivery: Get Key (with token)
-activate Key Delivery
-note right of Key Delivery: Validate token
+Browser->>Videos Sample: Get Key (with token)
+activate Videos Sample
+note right of Videos Sample: Validate token
 Videos Sample->>Graph API: Get user's groups
-deactivate Key Delivery
+deactivate Videos Sample
 activate Graph API
 Graph API-->>Videos Sample: List of user groups
 deactivate Graph API
+activate Videos Sample
+Videos Sample->>Azure Active Directory: Get token
+deactivate Videos Sample
+activate Azure Active Directory
+Azure Active Directory-->>Videos Sample: Token for application
+deactivate Azure Active Directory
+activate Videos Sample
+Videos Sample->>Key Delivery: Get Key (with application token)
+deactivate Videos Sample
 activate Key Delivery
-note right of Key Delivery: Validate user's access to video
-Key Delivery-->>Browser: Content Key
+note right of Key Delivery: Validate application token
+Key Delivery->>Videos Sample: Content Key
 deactivate Key Delivery
+activate Videos Sample
+Videos Sample-->>Browser: Content Key
+deactivate Videos Sample
 
 loop Playing
     Browser->>Streaming Endpoint: Get Fragment
+    activate Streaming Endpoint
+    note right of Streaming Endpoint: Decrypt fragment with contnet key
     Streaming Endpoint-->>Browser: Media Fragment
+    deactivate Streaming Endpoint
 end
 ```

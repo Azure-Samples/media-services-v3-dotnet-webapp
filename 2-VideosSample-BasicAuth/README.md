@@ -213,7 +213,10 @@ deactivate Key Delivery
 
 loop Playing
     Browser->>Streaming Endpoint: Get Fragment
+    activate Streaming Endpoint
+    note right of Streaming Endpoint: Decrypt fragment with contnet key
     Streaming Endpoint-->>Browser: Media Fragment
+    deactivate Streaming Endpoint
 end
 ```
 
