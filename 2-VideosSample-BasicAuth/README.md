@@ -21,6 +21,12 @@ This project framework provides the following features:
 
 ### Azure Active Directory Configuration
 
+The sample application uses two Azure Active Directory Applications:
+- A client application used by MSAL.js in the browser to access the application
+- A API application for the sample, used to validate users and to get user details
+
+These applications can be created using the `AadSetup` tool:
+
 ```console
 cd 2-VideosSample-BasicAuth
 

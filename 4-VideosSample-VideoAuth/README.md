@@ -1,6 +1,6 @@
 # Video Streaming with Per-Video Authorization
 
-This sample contains a .NET web applicaiton for streaming videos. In this version of the sample, access to videos is controlled using
+This sample contains a .NET web application for streaming videos. In this version of the sample, access to videos is controlled using
 Azure Active Directory users and groups.
 
 ## Features
@@ -26,6 +26,13 @@ This project framework provides the following features:
 
 ### Azure Active Directory Configuration
 
+The sample application uses three Azure Active Directory Applications:
+- A client application used by MSAL.js in the browser to access the application
+- A API application for the sample, used to validate users, get user details, and request tokens for Key Delivery
+- A Key Delivery application, used to validate Key Delivery tokens
+
+These applications can be created using the `AadSetup` tool:
+
 ```console
 cd 4-VideosSample-PerVideoAuth
 
@@ -35,6 +42,13 @@ dotnet run --project AadSetup `
   /ApplicationDisplayName "Video Sample" `
   /ApplicationName "video-sample"
 ```
+
+After creating the applications, the API application should be granted consent by an Azure Active Directory administrator:
+- From the Azure Portal, select Azure Active Directory
+- Select 'App registrations'
+- Select the 'Video Sample API' application
+- Select 'API permissions'
+- Select the 'Grant admin consent' button
 
 ### Resource Creation
 
@@ -69,7 +83,7 @@ az deployment group create `
 
 ### Preparing Videos
 
-Media Services can encode media content so it can be streamed using a wide variatey of devices. The AddVideoTool included in this sample will:
+Media Services can encode media content so it can be streamed using a wide variety of devices. The AddVideoTool included in this sample will:
 - Prepare a media file for streaming, the source content may come from a local mp4 file or a URL
   - Existing Media Services Assets may also be used
 - Create a Streaming Locator for the video
