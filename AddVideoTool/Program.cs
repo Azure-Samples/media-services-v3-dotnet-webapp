@@ -176,7 +176,7 @@ static async Task<string> BuildLocatorUriAsync(AzureMediaServicesClient mediaSer
         .Single(p => p.StreamingProtocol == StreamingPolicyStreamingProtocol.Dash).Paths
         .First();
 
-    var path = fullPath.Substring(0, fullPath.IndexOf('('));
+    var path = fullPath[..fullPath.IndexOf('(')];
 
     var streamingEndpoint = await mediaServices.StreamingEndpoints.GetAsync(
         options.ResourceGroup,
@@ -196,12 +196,12 @@ static async Task<string?> GetThumbnailUriAsync(ArmClient arm, AzureMediaService
 
     var storageAccount = await storage.GetAsync();
 
-    var storageKeys = await storage.GetKeysAsync();
+    var storageKeys = await storage.GetKeysAsync().ToArrayAsync();
 
-    var storageCredentials = new StorageSharedKeyCredential(asset.StorageAccountName, storageKeys.Value.Keys[0].Value);
+    var storageCredentials = new StorageSharedKeyCredential(asset.StorageAccountName, storageKeys[0].Value);
 
     var blobContainer = new BlobContainerClient(
-        new Uri($"{storageAccount.Value.Data.PrimaryEndpoints.Blob}{asset.Container}"),
+        new Uri($"{storageAccount.Value.Data.PrimaryEndpoints.BlobUri}{asset.Container}"),
         storageCredentials);
 
     var thumbnailBlob = await blobContainer.GetBlobsAsync(prefix: "Thumbnail").FirstOrDefaultAsync();
