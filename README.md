@@ -1,5 +1,7 @@
 # Media Streaming with .NET
 
+**IMPORTANT NOTE : Azure Media Services have been retired on June 30, 2024. Please see the [retirement guide](https://learn.microsoft.com/azure/media-services/latest/azure-media-services-retirement).**
+
 This repo contains sample code for using Azure Media Services to create a video streaming web application.
 
 ## Features
